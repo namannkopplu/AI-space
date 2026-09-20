@@ -1,0 +1,6 @@
+{
+  "name": "AI space",
+  "description": "Find trusted and verified AI. Compare AI tools, explore categories, read customer reviews, and register new AI innovations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

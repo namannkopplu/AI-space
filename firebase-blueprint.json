@@ -1,0 +1,102 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered user profile in AI space",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Full name or handle" },
+        "organization": { "type": "string", "description": "Company or university name" },
+        "role": { "type": "string", "description": "Professional designation or role" },
+        "favoriteTools": { "type": "array", "description": "List of bookmarked AI tool IDs" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Profile update timestamp" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Live AI tool demo or technical consultation session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Booking document identifier" },
+        "toolId": { "type": "string", "description": "Selected AI tool ID or 'general-consultation'" },
+        "toolName": { "type": "string", "description": "AI tool name or consultation topic" },
+        "toolCategory": { "type": "string", "description": "Category of the AI tool" },
+        "toolUrl": { "type": "string", "description": "Official AI product URL" },
+        "sessionType": { "type": "string", "enum": ["live-demo", "architecture-review", "enterprise-pilot", "pricing-audit"], "description": "Session agenda type" },
+        "date": { "type": "string", "description": "Scheduled date (YYYY-MM-DD)" },
+        "timeSlot": { "type": "string", "description": "Scheduled time slot" },
+        "userName": { "type": "string", "description": "Full name of the attendee" },
+        "userEmail": { "type": "string", "format": "email", "description": "Contact email" },
+        "userId": { "type": "string", "description": "Auth UID of the booking owner" },
+        "company": { "type": "string", "description": "Company name or institution" },
+        "teamSize": { "type": "string", "description": "Target team size" },
+        "primaryGoal": { "type": "string", "description": "Main objective or questions for the session" },
+        "status": { "type": "string", "enum": ["confirmed", "completed", "cancelled", "rescheduled"], "description": "Booking workflow state" },
+        "meetingUrl": { "type": "string", "description": "Video conferencing room URL" },
+        "calendarLink": { "type": "string", "description": "Add-to-calendar web URL" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["toolId", "toolName", "date", "timeSlot", "userName", "userEmail", "userId", "status"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Community user rating and feedback on an AI tool",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Review document identifier" },
+        "toolId": { "type": "string", "description": "Referenced AI tool ID" },
+        "userId": { "type": "string", "description": "Auth UID of the reviewer" },
+        "author": { "type": "string", "description": "Display name of the reviewer" },
+        "authorEmail": { "type": "string", "format": "email", "description": "Email of reviewer" },
+        "role": { "type": "string", "description": "Reviewer professional title" },
+        "rating": { "type": "number", "description": "Rating score between 1 and 5" },
+        "comment": { "type": "string", "description": "Written review commentary" },
+        "pros": { "type": "string", "description": "Highlight advantages" },
+        "cons": { "type": "string", "description": "Highlight limitations" },
+        "date": { "type": "string", "description": "Review date" }
+      },
+      "required": ["toolId", "author", "rating", "comment", "date"]
+    },
+    "RegisteredTool": {
+      "title": "RegisteredTool",
+      "description": "User-submitted new AI innovation for directory consideration",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique registration ID" },
+        "name": { "type": "string", "description": "Product name" },
+        "category": { "type": "string", "description": "AI capability category" },
+        "creator": { "type": "string", "description": "Founding organization or individual" },
+        "url": { "type": "string", "description": "Product URL" },
+        "pricing": { "type": "string", "description": "Pricing model" },
+        "description": { "type": "string", "description": "Product synopsis" },
+        "whatItDoes": { "type": "string", "description": "Detailed functional overview" },
+        "keyFeatures": { "type": "array", "description": "Key feature highlights" },
+        "userId": { "type": "string", "description": "Submitter UID" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Submission timestamp" }
+      },
+      "required": ["name", "category", "creator", "url", "description", "userId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles with role, company, and bookmarked tools"
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Stores scheduled AI demos and technical consultations"
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Stores community ratings and user reviews for AI innovations"
+    },
+    "/registered_tools/{toolId}": {
+      "schema": { "$ref": "#/entities/RegisteredTool" },
+      "description": "Stores community-submitted AI tools submitted for directory indexing"
+    }
+  }
+}
